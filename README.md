@@ -12,8 +12,8 @@ Completed:
 
 * [x] Required: Requests to port `8000` are echoed back with the same HTTP headers and body
 * [x] Required: Requests/reponses are proxied to/from the destination server
-* [] Required: The destination server is configurable via the `--host`, `--port`  or `--url` arguments
-* [] Required: The destination server is configurable via the `x-destination-url` header
+* [x] Required: The destination server is configurable via the `--host`, `--port`  or `--url` arguments
+* [x] Required: The destination server is configurable via the `x-destination-url` header
 * [x] Required: Client requests and respones are printed to stdout
 * [x] Required: The `--logfile` argument outputs all logs to the file specified instead of stdout
 * [] Optional: The `--exec` argument proxies stdin/stdout to/from the destination program
@@ -30,7 +30,7 @@ Walkthrough Gif:
 ## Starting the Server
 
 ```bash
-npm start
+nodemon index.js --log 'proxyserver.log' --host 127.0.0.1 --port 8000
 ```
 
 ## Features
@@ -38,32 +38,31 @@ npm start
 ### Echo Server:
 
 ```bash
-curl -v -X POST http://127.0.0.1:8000 -d "hello self" -H "x-asdf: yodawg"
+L-SB8H0JYG8W-M:codepathnocurl -v http://127.0.0.1:8000 -d "hello proxy" -H "x-asdf: yodawg"
 * Rebuilt URL to: http://127.0.0.1:8000/
-* Hostname was NOT found in DNS cache
 *   Trying 127.0.0.1...
 * Connected to 127.0.0.1 (127.0.0.1) port 8000 (#0)
 > POST / HTTP/1.1
-> User-Agent: curl/7.37.1
 > Host: 127.0.0.1:8000
+> User-Agent: curl/7.43.0
 > Accept: */*
 > x-asdf: yodawg
-> Content-Length: 10
+> Content-Length: 11
 > Content-Type: application/x-www-form-urlencoded
-> 
-* upload completely sent off: 10 out of 10 bytes
+>
+* upload completely sent off: 11 out of 11 bytes
 < HTTP/1.1 200 OK
-< user-agent: curl/7.37.1
 < host: 127.0.0.1:8000
+< user-agent: curl/7.43.0
 < accept: */*
 < x-asdf: yodawg
-< content-length: 10
+< content-length: 11
 < content-type: application/x-www-form-urlencoded
-< Date: Mon, 13 Apr 2015 00:45:50 GMT
+< Date: Mon, 03 Oct 2016 01:12:28 GMT
 < Connection: keep-alive
-< 
+<
 * Connection #0 to host 127.0.0.1 left intact
-hello self
+hello proxy
 ```
 
 ### Proxy Server:
@@ -71,27 +70,27 @@ hello self
 Port 8001 will proxy to the echo server on port 8000.
 
 ```bash
-curl -v http://127.0.0.1:8001/asdf -d "hello proxy"
-* Hostname was NOT found in DNS cache
+L-SB8H0JYG8W-M:codepathnodejs ychoube$ curl -v http://127.0.0.1:8001 -d "hello proxy"
+* Rebuilt URL to: http://127.0.0.1:8001/
 *   Trying 127.0.0.1...
 * Connected to 127.0.0.1 (127.0.0.1) port 8001 (#0)
-> POST /asdf HTTP/1.1
-> User-Agent: curl/7.37.1
+> POST / HTTP/1.1
 > Host: 127.0.0.1:8001
+> User-Agent: curl/7.43.0
 > Accept: */*
 > Content-Length: 11
 > Content-Type: application/x-www-form-urlencoded
-> 
+>
 * upload completely sent off: 11 out of 11 bytes
 < HTTP/1.1 200 OK
-< user-agent: curl/7.37.1
 < host: 127.0.0.1:8001
+< user-agent: curl/7.43.0
 < accept: */*
 < content-length: 11
 < content-type: application/x-www-form-urlencoded
 < connection: close
-< date: Mon, 13 Apr 2015 02:03:29 GMT
-< 
+< date: Mon, 03 Oct 2016 01:14:15 GMT
+<
 * Closing connection 0
 hello proxy
 ```
